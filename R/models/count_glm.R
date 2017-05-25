@@ -1,9 +1,8 @@
 # --------------------------------------------------------------
 # MODEL:
 # Predicts probability of accurate umpire decision with fixed
-# effects and interactions for pitch location (*zone_reg*) 
-# and ball-strike count (*bs_count*), with random effects for 
-# pitch location, ball-strike count, and umpire
+# effects for ball-strike count (*bs_count*), with random effects
+# for umpire
 #
 # TITLE: Effects of Pitch Location and Count on 
 # Professional Baseball Umpires' Ball/Strike Decisions
@@ -27,6 +26,5 @@ inv.logit <- function(x){
 	1 / (1 + exp(-x))
 }
 
-glm_model <- glmer(u_test_adj ~ factor(zone_reg)*factor(bs_count) + 
-    (factor(zone_reg) + factor(bs_count) | umpire), 
+count_glm <- glmer(u_test ~ factor(bs_count) + (1 | umpire), 
   data = pfx_16, family = binomial, nAGQ = 0)
