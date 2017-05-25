@@ -27,6 +27,6 @@ inv.logit <- function(x){
 	1 / (1 + exp(-x))
 }
 
-glm_model <- glmer(u_test_adj ~ factor(zone_reg)*factor(bs_count) + 
+full_glm <- glmer(u_test_adj ~ factor(zone_reg)*factor(bs_count) + 
     (factor(zone_reg) + factor(bs_count) | umpire), 
   data = pfx_16, family = binomial, nAGQ = 0)
