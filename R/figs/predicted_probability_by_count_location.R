@@ -18,7 +18,7 @@ library(lme4)
 
 # Load *pfx_16* data
 repmis::source_data("https://github.com/aaronbaggett/aps-2017/blob/master/data/pfx_16.Rda?raw=true")
-repmis::source_data("https://github.com/aaronbaggett/aps-2017/blob/master/data/glm_model.Rda?raw=true")
+repmis::source_data("https://github.com/aaronbaggett/aps-2017/blob/master/data/full_glm.Rda?raw=true")
 
 # Inverse logit function
 inv.logit <- function(x){
@@ -26,14 +26,14 @@ inv.logit <- function(x){
 }
 
 # Extract random components for variance/covariance table
-glm_model_vc <- as.data.frame(VarCorr(glm_model))
-names(glm_model_vc) <- c("Group", "V1", "V2", "VCov", "SD/Cor")
-xtable(glm_model_vc[, -1])
+full_glm_vc <- as.data.frame(VarCorr(full_glm))
+names(full_glm_vc) <- c("Group", "V1", "V2", "VCov", "SD/Cor")
+xtable(full_glm_vc[, -1])
 
-# Model 3d predicted probabilities table
+# Model predicted probabilities table
 pfx_16.pred <- pfx_16
-X <- model.matrix(terms(glm_model), data = pfx_16.pred)
-b <- fixef(glm_model)
+X <- model.matrix(terms(full_glm), data = pfx_16.pred)
+b <- fixef(full_glm)
 pred.logit <- X %*% b
 
 pred.prob  <- inv.logit(pred.logit)
